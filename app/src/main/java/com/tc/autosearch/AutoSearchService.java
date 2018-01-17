@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.accessibility.AccessibilityEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ import java.util.List;
 public class AutoSearchService extends AccessibilityService {
     LocalBroadcastManager manager;
     public static final String ACTION_KEY = "action_key";
+    final List<String> packageList = new ArrayList<>();
 
     public AutoSearchService() {
 
@@ -24,15 +26,17 @@ public class AutoSearchService extends AccessibilityService {
         super.onCreate();
         LogUtil.logE("AutoSearchService create");
         manager = LocalBroadcastManager.getInstance(this);
+        packageList.add("com.tc.hackwe");
+        packageList.add("com.chongdingdahui.app");
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (!event.getPackageName().toString().equals("com.tc.hackwe")) {
+        LogUtil.logE(event.toString());
+
+        if (!checkPackage(event)) {
             return;
         }
-        LogUtil.logE("AutoSearchService onAccessibilityEvent");
-        LogUtil.logE(event.toString());
         List<CharSequence> infos = event.getText();
         StringBuilder builder = new StringBuilder();
         for (CharSequence info : infos) {
@@ -48,5 +52,14 @@ public class AutoSearchService extends AccessibilityService {
     @Override
     public void onInterrupt() {
         LogUtil.logE("AutoSearchService interrupt");
+    }
+
+    private boolean checkPackage(AccessibilityEvent event) {
+        for (String p : packageList) {
+            if (p.equals(event.getPackageName().toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

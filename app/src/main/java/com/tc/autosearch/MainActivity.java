@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = 400;
-        layoutParams.gravity = Gravity.TOP;
+        layoutParams.height = 500;
+        layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         windowManager.addView(createWeb(), layoutParams);
